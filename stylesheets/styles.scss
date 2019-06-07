@@ -1,0 +1,46 @@
+@import"normalize";
+
+body {
+    background: #b7d8e0;
+}
+
+#box {
+    width: 604px;
+    height: 604px;
+    border:2px #144233 solid;
+    position: relative;
+}
+
+// .llttle-box {
+//     border: 1px #fff solid;
+//     background: #2b5e4d;
+//     width: 148px;
+//     height: 148px;
+//     float: left;
+// }
+
+button {
+    background: #086b8a;
+    width: 100px;
+    height: 50px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.picture {
+    background-image: url("/retrogame/image/dogs.jpg");
+    width: 150px;
+    height: 150px;
+    border: 1px #fff solid;
+    position: absolute;
+}
+
+@media screen and (max-width: 767px) {
+    .container {
+        width: 90%; //畫面置中
+    }
+    .picture {
+        width: 100px;
+        height: 100px;
+    }
+}

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <title>拼圖遊戲</title>
+</head>
+
+<body>
+    <div class="container mt-4 text-center">
+        <button class="mb-3" id="start">開始遊戲</button>
+        <div class="row mx-auto" id="box">
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        //圖片自動生成&切割
+        for (var i = 0; i < 16; i++) {
+            $("#box").append("<div class='col-3 picture'></div>");
+            var row = parseInt(i / 4);
+            var col = i % 4;
+            $(".picture:last").css("background-position-y", row * -150 + "px");//圖片往上移
+            $(".picture:last").css("background-position-x", col * -150 + "px");//圖片往左移
+            $(".picture:last").css("top", row * 150 + "px");
+            $(".picture:last").css("left", col * 150 + "px");
+            //圖片可以點擊>綁定事件
+            $(".picture:last").click(change);
+            //給每一張圖有一個i的位置，從0開始
+            $(".picture:last").val(i);
+            $(".picture:first").css("display", "none"); //左上角變空白  
+        }
+        var a;
+        var b;
+        $("#start").click(function () {
+            a = $("#box").children().toArray(); //#box的子元素，變成陣列
+            var n = 0;
+            b = false;
+            // while (n <= 300) {
+            while (a[0].value == 0 || a[3].value == 3 || a[15].value == 15 || a[12].value == 12) {
+                var change_num = Math.floor(Math.random() * a.length);
+                $(a[change_num]).click();
+                n++;
+            }
+            b = true;
+        })
+
+        function change() {
+            console.log(this);
+            // alert("可以點擊圖片");
+            var j = this.value - 0; //圖片的位置
+            var row = parseInt(j / 4) * 150;//left
+            var col = j % 4 * 150;//top
+            var image = a[0].value - 0;
+            if (image + 1 == j && image % 4 != 3) {
+                $(this).css("left", col - 150 + "px");
+                //點擊與空白互換
+                this.value = image;
+                a[0].value = j;
+            }
+            else if (image - 1 == j && image % 4 != 0) {
+                $(this).css("left", col + 150 + "px");
+                this.value = image;
+                a[0].value = j;
+            }
+            else if (image + 4 == j) {
+                $(this).css("top", row - 150 + "px");
+                this.value = image;
+                a[0].value = j;
+            }
+            else if (image - 4 == j) {
+                $(this).css("top", row + 150 + "px");
+                this.value = image;
+                a[0].value = j;
+            }
+            judgeimage();
+        }
+
+        function judgeimage() {
+            for (var i = 0; i < 16; i++) {
+                if (a[i].value != i) {
+                    return;
+                }
+            }
+            // console.log(123);
+            if (b) {
+                $(".picture:first").css("display", "block");
+                alert("終於成功了!!!");
+            }
+        }
+    </script>
+</body>
+
+</html>
